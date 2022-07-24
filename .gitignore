@@ -350,4 +350,4 @@ MigrationBackup/
 .ionide/
 
 #Hide Discord Bot Token
-.auth.json
+auth.json
