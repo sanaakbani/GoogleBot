@@ -1,22 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
-const firstMessage = require('./firstMessage')
 
 module.exports = client => {
   const channelId = '999095955116789800';
   const channel = client.channels.cache.get('999095955116789800');
-
-  const getEmoji = key => client.emojis.cache.find(emoji => emoji.name === key);
-
-  const emojis = {
-    gdsc: 'Coogler'
-  }
-
-  const reactions = [];
-
-  for(const key in emojis) {
-    const emoji = getEmoji(key);
-    reactions.push(emoji);
-  }
 
   const redHex = '0xFF0000';
   const yellowHex = '0xFFCD01';
@@ -45,43 +31,12 @@ module.exports = client => {
   const fifthRule = new EmbedBuilder()
 	.setColor(whiteHex)
 	.setTitle('Please speak up if you see or hear something!')
-	.setDescription("Harassment is not tolerated, and you are empowered to politely engage when you or others are disrespected. We have a **ZERO TOLERANCE POLICY** for harassment of any kind, including but not limited to: \n\n> Offensive Language \n> Sexual Imagery and Language \n> Unwelcomed Sexual or Physical Attention \n> Cyber Threats \n> Race and/or Color \n> Gender & Sexuality \n> Age & Appearance \n> Disability```");
+	.setDescription("Harassment is not tolerated, and you are empowered to politely engage when you or others are disrespected. We have a **ZERO TOLERANCE POLICY** for harassment of any kind, including but not limited to: \n\n> Offensive Language \n> Sexual Imagery and Language \n> Unwelcomed Sexual or Physical Attention \n> Cyber Threats \n> Race and/or Color \n> Gender & Sexuality \n> Age & Appearance \n> Disability");
 
   const rulesMsg = "<:gdsc:1000228885155283066>" + " **Rules:** " + "<:gdsc:1000228885155283066>";
   channel.send(rulesMsg);
   channel.send({ embeds: [firstRule, secondRule, thirdRule, fourthRule, fifthRule] });
-  firstMessage(client, channelId, "**React with '<:gdsc:1000228885155283066>' to agree to the rules and become a Coogler!**", reactions);
-
-  const handleReaction = (reaction, user, add) => {
-    if(user.bot)
-      return;
-
-    const emoji = reaction._emoji.name;
-    const { guild } = reaction.message;
-    const roleName = emojis[emoji];
-    if(!roleName)
-      return;
-
-    const role = guild.roles.cache.find(role => role.name === roleName);
-    const member = guild.members.cache.find(member => member.id === user.id);
-
-    if(add) {
-      member.roles.add(role);
-    } else {
-      member.roles.remove(role);
-    }
-  }
-
-  client.on('messageReactionAdd', (reaction,user) => {
-    if(reaction.message.channel.id === channelId) {
-      handleReaction(reaction, user, true);
-    }
-  });
-
-  client.on('messageReactionRemove', (reaction,user) => {
-    if(reaction.message.channel.id === channelId) {
-      handleReaction(reaction, user, false);
-    }
-  });
-
+  const reactMsg = "**React with '<:gdsc:1000228885155283066>' to agree to the rules and become a Coogler!**";
+  channel.send(reactMsg).then( async msg => {
+		msg.react("1000228885155283066")})
 }
