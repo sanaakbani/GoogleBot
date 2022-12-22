@@ -6,7 +6,9 @@ const { token } = require('./config.json');
 const { Collection } = require('discord.js');
 const { ReactionRole } = require("discordjs-reaction-role");
 const roleClaim = require('./rules');
-const rRoles = require('./roles')
+const rRoles = require('./roles');
+const about = require('./aboutUs');
+const keep_alive = require('./keepAlive.js');
 
 // Create a new client instance
 const client = new Client({ 
@@ -33,12 +35,14 @@ for (const file of commandFiles) {
 	}
 }
 
+keep_alive();
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
 	console.log('Ready!');
 	client.user.setPresence({ activities: [{ name: 'googling with cooglers!' }], status: 'online' });
 	// roleClaim(client);
 	// rRoles(client);
+	// about(client);
 });
 
 client.on(Events.InteractionCreate, async interaction => {
